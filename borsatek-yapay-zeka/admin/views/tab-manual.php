@@ -30,10 +30,10 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                 </div>
 
                 <div class="borsatek-field">
-                    <label for="borsatek_focus_keyword_url">Odak Kelime</label>
+                    <label for="borsatek_focus_keyword_url">Odak Kelime <span class="required">*</span></label>
                     <input type="text" id="borsatek_focus_keyword_url" name="borsatek_focus_keyword"
-                           placeholder="Örn: dolar kuru" class="regular-text">
-                    <p class="description">Boş bırakılırsa AI belirler.</p>
+                           placeholder="Örn: dolar kuru" class="regular-text" required>
+                    <p class="description">SEO optimizasyonu için zorunludur.</p>
                 </div>
 
                 <button type="submit" class="button button-primary button-large">
@@ -77,9 +77,10 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                 </div>
 
                 <div class="borsatek-field">
-                    <label for="borsatek_focus_keyword_paste">Odak Kelime</label>
+                    <label for="borsatek_focus_keyword_paste">Odak Kelime <span class="required">*</span></label>
                     <input type="text" id="borsatek_focus_keyword_paste" name="borsatek_focus_keyword"
-                           placeholder="Örn: enflasyon" class="regular-text">
+                           placeholder="Örn: enflasyon" class="regular-text" required>
+                    <p class="description">SEO optimizasyonu için zorunludur.</p>
                 </div>
 
                 <button type="submit" class="button button-primary button-large">

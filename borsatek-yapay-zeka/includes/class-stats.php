@@ -26,7 +26,7 @@ class BorsatekStats {
         update_option( $key, $stats, false );
 
         // Günlük sayacı da güncelle
-        $dailyKey = 'borsatek_daily_' . date( 'Y_m_d' );
+        $dailyKey = 'borsatek_daily_' . wp_date( 'Y_m_d' );
         $daily    = (int) get_option( $dailyKey, 0 );
         update_option( $dailyKey, $daily + 1, false );
     }
@@ -67,7 +67,7 @@ class BorsatekStats {
      */
     public function getMonthlyReport( string $month = '' ): array {
         if ( empty( $month ) ) {
-            $month = date( 'Y_m' );
+            $month = wp_date( 'Y_m' );
         }
         return get_option( 'borsatek_stats_' . $month, $this->emptyStats() );
     }
@@ -81,9 +81,9 @@ class BorsatekStats {
         $chart = [];
         for ( $i = $days - 1; $i >= 0; $i-- ) {
             $ts      = strtotime( "-{$i} days" );
-            $dayKey  = 'borsatek_daily_' . date( 'Y_m_d', $ts );
+            $dayKey  = 'borsatek_daily_' . wp_date( 'Y_m_d', $ts );
             $chart[] = [
-                'date'  => date( 'Y-m-d', $ts ),
+                'date'  => wp_date( 'Y-m-d', $ts ),
                 'count' => (int) get_option( $dayKey, 0 ),
             ];
         }
@@ -130,6 +130,6 @@ class BorsatekStats {
      * Mevcut ay için option anahtarını döndürür.
      */
     private function getCurrentMonthKey(): string {
-        return 'borsatek_stats_' . date( 'Y_m' );
+        return 'borsatek_stats_' . wp_date( 'Y_m' );
     }
 }

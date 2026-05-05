@@ -12,7 +12,7 @@ $byProvider    = $monthlyReport['byProvider'] ?? [];
 arsort( $byProvider );
 $topProvider   = key( $byProvider ) ?: '—';
 
-$currentMonth  = date( 'F Y' );
+$currentMonth  = wp_date( 'F Y' );
 ?>
 
 <div class="borsatek-stats-wrap">

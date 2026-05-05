@@ -140,7 +140,7 @@ class BorsatekRssScanner {
             // Yayın tarihini al
             $pubDate = '';
             if ( $item->get_date( 'U' ) ) {
-                $pubDate = date( 'Y-m-d H:i:s', $item->get_date( 'U' ) );
+                $pubDate = wp_date( 'Y-m-d H:i:s', $item->get_date( 'U' ) );
             }
 
             // RSS başlığını al (tam içerik dönüştürme sırasında çekilecek)

@@ -450,4 +450,17 @@ jQuery( document ).ready( function ( $ ) {
         $( this ).css( 'background-color', '#fffde7' );
     } );
 
+    // ── 11. Manuel Form Odak Kelime Validasyonu ───────────────────────────────
+    $( '.borsatek-form' ).on( 'submit', function ( e ) {
+        var $form = $( this );
+        var $focusKeyword = $form.find( 'input[name="borsatek_focus_keyword"]' );
+        
+        if ( $focusKeyword.length && ! $focusKeyword.val().trim() ) {
+            e.preventDefault();
+            alert( 'Odak kelime gerekli! SEO optimizasyonu için lütfen bir odak kelime girin.' );
+            $focusKeyword.focus();
+            return false;
+        }
+    } );
+
 } );

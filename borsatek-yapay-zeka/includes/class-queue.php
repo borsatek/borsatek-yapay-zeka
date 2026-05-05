@@ -321,7 +321,7 @@ class BorsatekQueue {
      * Belirli günden eski süresi dolmuş öğeleri temizler.
      */
     public function cleanupExpired( int $days = 3 ): void {
-        $cutoff = date( 'Y-m-d H:i:s', strtotime( "-{$days} days" ) );
+        $cutoff = wp_date( 'Y-m-d H:i:s', strtotime( "-{$days} days" ) );
 
         $query = new WP_Query( [
             'post_type'      => self::POST_TYPE,

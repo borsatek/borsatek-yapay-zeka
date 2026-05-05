@@ -171,8 +171,8 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                             $ts = $item['displayDate'] ? strtotime( $item['displayDate'] ) : 0;
                             echo $ts
                                 ? '<span title="' . esc_attr( $item['displayDate'] ) . '">'
-                                  . esc_html( date( 'd.m.Y', $ts ) )
-                                  . '<br><small style="color:#777;">' . esc_html( date( 'H:i', $ts ) ) . '</small>'
+                                  . esc_html( wp_date( 'd.m.Y', $ts ) )
+                                  . '<br><small style="color:#777;">' . esc_html( wp_date( 'H:i', $ts ) ) . '</small>'
                                   . '</span>'
                                 : '—';
                             ?>

@@ -19,7 +19,7 @@ $modelMap = [
 $activeModel = $modelMap[ $activeProvider ] ?? '—';
 
 $cronStatus  = $nextCron
-    ? '<span class="borsatek-badge borsatek-badge-done">✓ Aktif (' . esc_html( date( 'H:i', $nextCron ) ) . ')</span>'
+    ? '<span class="borsatek-badge borsatek-badge-done">✓ Aktif (' . esc_html( wp_date( 'H:i', $nextCron ) ) . ')</span>'
     : '<span class="borsatek-badge borsatek-badge-error">✗ Planlanmamış</span>';
 
 $wpCronDisabled = defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON;
@@ -107,7 +107,7 @@ cURL error 28: Operation timed out..."></textarea>
                     <td><strong>Son Tarama:</strong></td>
                     <td>
                         <?php echo $lastScanTime > 0
-                            ? esc_html( date( 'd.m.Y H:i', $lastScanTime ) . ' (' . human_time_diff( $lastScanTime ) . ' önce)' )
+                            ? esc_html( wp_date( 'd.m.Y H:i', $lastScanTime ) . ' (' . human_time_diff( $lastScanTime ) . ' önce)' )
                             : '<em>Henüz yapılmadı</em>'; ?>
                     </td>
                 </tr>

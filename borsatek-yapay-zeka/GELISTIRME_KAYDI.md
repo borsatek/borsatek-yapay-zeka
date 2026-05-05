@@ -14,6 +14,8 @@ Bu dosya projede yapılan özellik eklemelerini, düzeltmeleri ve önemli teknik
 
 | Tarih | Tür | Kapsam | Özet |
 |-------|-----|--------|------|
+| 2026-05-05 | özellik | `tab-manual.php`, `borsatek-admin.js` | **Odak kelime zorunluluğu:** Manuel sekmede odak kelime alanı artık zorunlu; boş bırakıldığında JavaScript ve HTML5 validation ile "Odak kelime gerekli" uyarısı çıkar. SEO motorunda zaten destekleniyordu. |
+| 2026-05-05 | düzeltme | `class-stats.php`, `tab-*.php` | Saat görüntüleme sorunu düzeltildi: `date()` → `wp_date()` dönüştürme ile UTC+3 (WordPress timezone ayarına göre) doğru gösterim sağlandı. |
 | 2026-05-05 | güvenlik | `borsatek-yapay-zeka.php` | Aktivasyon varsayılanlarındaki API anahtarları kaldırıldı (yalnızca WordPress ayarlarından girilmeli). Bu anahtarlar daha önce repoda metin olarak bulunduğu için ilgili sağlayıcılarda yenilemeniz önerilir. |
 | 2026-05-05 | diğer | `origin` → GitHub | `https://github.com/borsatek/borsatek-yapay-zeka` uzaktan depo eklendi; `main` dalı push edildi (GitHub CLI kuruldu; `gh auth login` isteğe bağlı). |
 | 2026-05-05 | diğer | `.git/`, `.gitignore` | Git deposu oluşturuldu (`main` dalı); yedekleme ve sürüm takibi için ilk commit atıldı. |
