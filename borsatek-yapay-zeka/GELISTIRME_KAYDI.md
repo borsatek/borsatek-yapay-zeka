@@ -24,3 +24,62 @@ Bu dosya projede yapılan özellik eklemelerini, düzeltmeleri ve önemli teknik
 <!-- Yeni satır örneği (kopyalayıp düzenleyin):
 | YYYY-MM-DD | düzeltme | `admin/views/tab-seo.php` | SEO sekmesinde ... hatası giderildi. |
 -->
+
+---
+
+## 🔄 Değişiklik Sonrası Yapılacaklar
+
+**Her geliştirme/düzeltme sonrası aşağıdaki adımları uygulayın:**
+
+### 📱 **Yerel Geliştirme Ortamında**
+
+#### PHP Değişiklikleri Sonrası:
+- WordPress admin panelini yenile (F5)
+- İlgili sekmeye git ve işlevselliği test et
+- Cache plugin varsa temizle
+
+#### JavaScript/CSS Değişiklikleri Sonrası:
+- Tarayıcıda **Hard Refresh** (Ctrl+Shift+R)
+- Developer Tools açıp "Disable cache" seç
+- Console'da hata var mı kontrol et
+
+#### Ayar/Veritabanı Değişiklikleri Sonrası:
+- İlgili admin sekmesini yenile
+- Ayarları kaydet ve test et
+- Veri doğruluğunu kontrol et
+
+### 🚀 **Canlı Sunucuya Çıkarken**
+
+#### Dosya Yükleme:
+```
+wp-content/plugins/borsatek-yapay-zeka/
+├── admin/ (değişen dosyalar)
+├── includes/ (değişen dosyalar)
+└── borsatek-yapay-zeka.php (gerekirse)
+```
+
+#### Cache Temizleme:
+- WordPress cache plugin'i temizle
+- CDN cache'ini temizle (Cloudflare vb.)
+- Object cache temizle (Redis/Memcached)
+
+#### Test:
+- Canlı sitede aynı testleri tekrarla
+- Hata loglarını kontrol et
+- Kritik işlevleri test et
+
+### ⚠️ **Dikkat Edilecekler**
+
+- **API anahtarları** hiçbir zaman commit etme
+- **Veritabanı yedek** al (büyük değişiklikler öncesi)
+- **Staging** ortamında önce test et
+- **Error logları** kontrol et (`/wp-content/debug.log`)
+
+### 📋 **Hızlı Test Checklist**
+
+- [ ] Admin paneli açılıyor mu?
+- [ ] Manuel sekme çalışıyor mu?
+- [ ] RSS tarama çalışıyor mu?
+- [ ] İstatistikler doğru mu?
+- [ ] SEO kuralları uygulanıyor mu?
+- [ ] Hatalar console'da yok mu?
