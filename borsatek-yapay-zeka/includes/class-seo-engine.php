@@ -404,6 +404,11 @@ class BorsatekSeoEngine {
             $result['focusKeyword'] = $keyword;
         }
 
+        // Kaynak sadakat kontrolü
+        if ( ! empty( $sourceContent ) ) {
+            $result = $this->validateSourceFidelity( $result, $sourceContent );
+        }
+
         return $result;
     }
 
@@ -1213,5 +1218,57 @@ PROMPT;
         // Cümle bulunamazsa sözcük sınırında kes
         $lastSpace = mb_strrpos( $trimmed, ' ' );
         return $lastSpace !== false ? mb_substr( $trimmed, 0, $lastSpace ) : $trimmed;
+    }
+
+    /**
+     * Kaynak sadakat kontrolü yapar - hallüsinasyon tespiti
+     */
+    private function validateSourceFidelity( array $result, string $sourceContent ): array {
+        $body = $result['body'] ?? '';
+        $title = $result['title'] ?? '';
+        
+        if ( empty( $body ) && empty( $title ) ) {
+            return $result;
+        }
+
+        $sourceText = wp_strip_all_tags( $sourceContent );
+        $generatedText = wp_strip_all_tags( $body . ' ' . $title );
+
+        // Sayı hallüsinasyon kontrolü
+        $sourceNumbers = $this->extractNumbers( $sourceText );
+        $generatedNumbers = $this->extractNumbers( $generatedText );
+        
+        // Kaynak metinde olmayan sayılar varsa uyarı ekle
+        $hallucinations = [];
+        foreach ( $generatedNumbers as $num ) {
+            if ( ! in_array( $num, $sourceNumbers ) && $num > 100 ) { // Küçük sayılar göz ardı
+                $hallucinations[] = "Kaynakta olmayan rakam: $num";
+            }
+        }
+
+        // Büyük farklılık tespiti (kaynak metin çok kısaltılmışsa)
+        $sourceWordCount = str_word_count( $sourceText );
+        $bodyWordCount = str_word_count( wp_strip_all_tags( $body ) );
+        
+        if ( $sourceWordCount > 100 && $bodyWordCount < ( $sourceWordCount * 0.3 ) ) {
+            $hallucinations[] = "İçerik aşırı kısaltılmış - kaynak bilgileri eksik olabilir";
+        }
+
+        // Hallüsinasyon tespit edilirse meta alanına not ekle
+        if ( ! empty( $hallucinations ) ) {
+            $result['_borsatek_fidelity_warnings'] = $hallucinations;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Metin içindeki sayıları çıkarır
+     */
+    private function extractNumbers( string $text ): array {
+        preg_match_all( '/\b\d+(?:[.,]\d+)*\b/', $text, $matches );
+        return array_map( function( $num ) {
+            return (float) str_replace( ',', '.', $num );
+        }, $matches[0] ?? [] );
     }
 }

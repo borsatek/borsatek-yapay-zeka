@@ -228,6 +228,8 @@ DEPTH;
         }
 
         return <<<PROMPT
+⚠️ MUTLAK KURAL: Bu görevi sadece KAYNAK METİNDEKİ bilgilerle yapacaksın. Kendi bilgini, genel piyasa yorumunu, teorik açıklamaları EKLEME. Kaynak metindeki her rakam, isim, olay KORUNMALI. Hallüsinasyon YASAK!
+
 === SEO Dönüştürme Komutları ===
 {$rulesSection}
 
@@ -248,14 +250,38 @@ Tüm çıktılar (title, excerpt, body, tags, subheadings, metaDescription dahil
 Aşağıdaki makaleyi yeniden yazıyorsun; başka kaynak veya genel bilgi kullanma:
 {$linkLine}{$thinSourceNote}
 
-=== Kaynak sadakati — somut kurallar ===
-- Gövdedeki her somut iddia (rakam, tarih, hedef fiyat, yüzde, şirket adımı, mahkeme/regülasyon) "Kaynak metin" içinde yer almalı; kaynakta yoksa yazma.
-- Kaynak ana temayı anlatıyorsa gövde de aynı temayı işlemeli; genel piyasa özeti veya farklı bir hisse senedi hikâyesine sapma.
-- Özgünlük cümle yapısı ve kelime seçimiyle sağlanır; kaynaktaki somut rakamlar ve kurum adları korunmalı.
-- Kaynakta geçmeyen yurt dışı coğrafi veya askeri metafor kullanma.
-- "title" tek ana başlık olsun; "/" ile iki başlık birleştirme.
-- Aynı veya neredeyse aynı cümleyi gövdede iki kez yazma; tekrarlayan paragrafları birleştir.
-- Kaynakta borç, zarar veya tahvil detayı ana konuysa gövdede korunmalı; uzun kaynaklarda özellikle iki–üç paragraflık aşırı kısa özete sıkıştırma.
+🚨 KRİTİK: KAYNAK SADAKATİ — İHLAL EDİLEMEZ KURALLAR 🚨
+
+Bu kurallar MUTLAK önceliklidir. İhlal halinde yanıt REDDEDİLİR:
+
+1. **RAKAM VE VERI SADAKATİ (ZORUNLU):**
+   - Kaynak metindeki EVERY rakamı, yüzdeyi, fiyatı, oranı AYNEN kullan
+   - Ons altın 4.539,75 dolar ise → AYNEN yaz, 4.540'a yuvarlama
+   - Yüzde 0,4 artış ise → AYNEN yaz, "hafif artış" deme
+   - Haziran vadeli 4.548,10 dolar ise → MUTLAKA dahil et
+   - Tarih/saat bilgileri (saat 05.13 gibi) KORUNMALI
+
+2. **OLAY VE KURUM SADAKATİ (ZORUNLU):**
+   - "ABD ordusu altı İran botunu imha etti" → MUTLAKA bahset
+   - "Trump'ın Özgürlük Projesi" → İSİM olarak geçirmeli
+   - "Fujairah limanı saldırısı" → SPESİFİK detay korunmalı
+   - Genel "jeopolitik gerilim" lafıyla KAPATMA
+
+3. **KAYNAK DIŞI BİLGİ YASAĞI:**
+   - Kaynakta OLMAYAN hiçbir rakam, şirket, olay EKLEME
+   - "Piyasa analistleri diyor ki..." YASAK (kaynakta yoksa)
+   - Genel finans bilgisi, teorik açıklama YASAK
+   - Sadece kaynak metindeki SOMUT olayları işle
+
+4. **İÇERİK DEVRALMASI:**
+   - Kaynak 400 kelimeyse → gövde min 280 kelime olmalı (%70 kural)
+   - Kaynaktaki TÜM önemli bilgiler gövdede yer almalı
+   - Hiçbir paragraf, önemli detay ATLANMAMALI
+
+5. **BAŞLIK VE BAĞLAM SADAKATİ:**
+   - Kaynak "altın fiyatları yükseldi" diyorsa → başlık da altın odaklı
+   - Kaynak spesifik bir olaysa → genel piyasa analizi YASAK
+   - Ana tema kaynak metinle %100 uyumlu olmalı
 
 === Zorunlu JSON Şeması (başka metin ekleme) ===
 {
@@ -279,6 +305,8 @@ Kaynak başlık:
 
 Kaynak metin (yalnızca bunu temel al):
 {$truncatedContent}
+
+🎯 SON KONTROL: Yazdığın her rakam, isim, olay kaynak metinde var mı? Yoksa SİL! Kaynak metindeki hiçbir önemli detayı atlama!
 PROMPT;
     }
 
