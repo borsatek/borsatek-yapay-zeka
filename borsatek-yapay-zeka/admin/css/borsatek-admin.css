@@ -244,6 +244,16 @@
     color: #fff !important;
 }
 
+.borsatek-needs-keyword {
+    background: #FFF3E0 !important;
+    border-color: #FF9800 !important;
+    color: #E65100 !important;
+}
+
+.borsatek-needs-keyword:hover {
+    background: #FFE0B2 !important;
+}
+
 /* ── Badge'ler ───────────────────────────────────────────────────────────────── */
 .borsatek-badge {
     display: inline-flex;
@@ -297,6 +307,20 @@
     background: #F5F5F5;
     color: #757575;
     border: 1px solid #BDBDBD;
+}
+
+/* Odak kelime badge'leri */
+.borsatek-badge-success {
+    background: #E8F5E9;
+    color: #1B5E20;
+    border: 1px solid #4CAF50;
+}
+
+.borsatek-badge-warning {
+    background: #FFF3E0;
+    color: #E65100;
+    border: 1px solid #FF9800;
+    font-weight: bold;
 }
 
 /* ── Spinner ─────────────────────────────────────────────────────────────────── */
