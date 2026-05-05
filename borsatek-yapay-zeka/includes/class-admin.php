@@ -104,9 +104,10 @@ class BorsatekAdmin {
         );
 
         wp_localize_script( 'borsatek-admin', 'borsatekData', [
-            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-            'nonce'   => wp_create_nonce( 'borsatek_ajax' ),
-            'version' => BORSATEK_YZ_VERSION,
+            'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+            'adminPostUrl' => admin_url( 'admin-post.php' ),
+            'nonce'        => wp_create_nonce( 'borsatek_ajax' ),
+            'version'      => BORSATEK_YZ_VERSION,
         ] );
     }
 
@@ -356,11 +357,18 @@ class BorsatekAdmin {
             $sourceContent = $sourceTitle;
         }
 
+        // Odak kelime kontrolü
+        $focusKeyword = $item['focusKeyword'] ?? '';
+        if ( empty( trim( $focusKeyword ) ) ) {
+            $this->redirectWithMessage( 'Odak kelime gerekli! SEO optimizasyonu için önce bir odak kelime belirleyin.', 'error' );
+            return;
+        }
+
         $result = $this->rewriter->rewrite(
             $sourceTitle,
             $sourceContent,
             $item['sourceLink'],
-            $item['focusKeyword']  ?? '',
+            $focusKeyword,
             $this->permissions->getActiveUser()
         );
 
@@ -597,10 +605,16 @@ class BorsatekAdmin {
         $previewContent = $refreshed['content'];
         $previewTitle   = $refreshed['title'];
 
+        // Odak kelime kontrolü
+        $finalFocusKeyword = $focusKeyword ?: ( $item['focusKeyword'] ?? '' );
+        if ( empty( trim( $finalFocusKeyword ) ) ) {
+            wp_send_json_error( [ 'message' => 'Odak kelime gerekli! SEO optimizasyonu için önce bir odak kelime belirleyin.' ] );
+        }
+
         $result = $this->rewriter->preview(
             $previewTitle,
             $previewContent,
-            $focusKeyword ?: ( $item['focusKeyword'] ?? '' )
+            $finalFocusKeyword
         );
 
         if ( is_wp_error( $result ) ) {
@@ -630,6 +644,13 @@ class BorsatekAdmin {
                 continue;
             }
 
+            // Odak kelime kontrolü
+            $focusKeyword = $item['focusKeyword'] ?? '';
+            if ( empty( trim( $focusKeyword ) ) ) {
+                $results[] = [ 'id' => $queueId, 'success' => false, 'error' => 'Odak kelime gerekli' ];
+                continue;
+            }
+
             $refreshed     = $this->maybeRefreshQueueItemSource( $item, $queueId );
             $sourceContent = $refreshed['content'];
             $sourceTitle   = $refreshed['title'];
@@ -638,7 +659,7 @@ class BorsatekAdmin {
                 $sourceTitle,
                 $sourceContent,
                 $item['sourceLink'],
-                $item['focusKeyword']  ?? '',
+                $focusKeyword,
                 $this->permissions->getActiveUser()
             );
 
@@ -803,6 +824,49 @@ class BorsatekAdmin {
         $explanation = is_array( $parsed ) ? ( $parsed['explanation'] ?? $result ) : $result;
 
         wp_send_json_success( [ 'explanation' => wp_kses_post( nl2br( $explanation ) ) ] );
+    }
+
+    /**
+     * AJAX: Kuyruk öğesinin odak kelimesini günceller
+     */
+    public function handleUpdateFocusKeyword(): void {
+        check_ajax_referer( 'borsatek_nonce', 'nonce' );
+
+        if ( ! $this->permissions->canManageAi() ) {
+            wp_send_json_error( [ 'message' => 'Yetkiniz yok.' ] );
+        }
+
+        $queueId = absint( $_POST['queue_id'] ?? 0 );
+        $focusKeyword = sanitize_text_field( $_POST['focus_keyword'] ?? '' );
+
+        if ( $queueId === 0 ) {
+            wp_send_json_error( [ 'message' => 'Geçersiz kuyruk ID.' ] );
+        }
+
+        if ( empty( $focusKeyword ) ) {
+            wp_send_json_error( [ 'message' => 'Odak kelime boş olamaz.' ] );
+        }
+
+        // Kuyruk öğesini güncelle
+        update_post_meta( $queueId, BorsatekQueue::META_FOCUS_KEYWORD, $focusKeyword );
+
+        wp_send_json_success( [ 
+            'message' => 'Odak kelime güncellendi.',
+            'focus_keyword' => $focusKeyword 
+        ] );
+    }
+
+    /**
+     * AJAX: Convert işlemi için nonce üretir
+     */
+    public function ajaxGenerateConvertNonce(): void {
+        check_ajax_referer( 'borsatek_ajax', 'nonce' );
+
+        if ( ! $this->permissions->canAccessStream() ) {
+            wp_send_json_error( [ 'message' => 'Yetkiniz yok.' ] );
+        }
+
+        wp_send_json_success( [ 'convert_nonce' => wp_create_nonce( 'borsatek_convert_queue' ) ] );
     }
 
     // ─── Yardımcı ────────────────────────────────────────────────────────────

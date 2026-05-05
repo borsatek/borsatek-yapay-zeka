@@ -14,6 +14,7 @@ Bu dosya projede yapılan özellik eklemelerini, düzeltmeleri ve önemli teknik
 
 | Tarih | Tür | Kapsam | Özet |
 |-------|-----|--------|------|
+| 2026-05-05 | özellik | **TÜM SEKMELERDE**, `tab-stream.php`, `class-admin.php`, `borsatek-admin.js` | **🔥 KRİTİK: Odak kelime artık her yerde zorunlu!** Haber Akışı, Manuel, Önizleme, Toplu Dönüştürme - hiçbirinde odak kelime olmadan işlem yapılamaz. Modal popup ile kullanıcı odak kelime girmek zorunda. Backend'de de validation var. SEO kuralları artık tam çalışıyor. |
 | 2026-05-05 | özellik | `tab-manual.php`, `borsatek-admin.js` | **Odak kelime zorunluluğu:** Manuel sekmede odak kelime alanı artık zorunlu; boş bırakıldığında JavaScript ve HTML5 validation ile "Odak kelime gerekli" uyarısı çıkar. SEO motorunda zaten destekleniyordu. |
 | 2026-05-05 | düzeltme | `class-stats.php`, `tab-*.php` | Saat görüntüleme sorunu düzeltildi: `date()` → `wp_date()` dönüştürme ile UTC+3 (WordPress timezone ayarına göre) doğru gösterim sağlandı. |
 | 2026-05-05 | güvenlik | `borsatek-yapay-zeka.php` | Aktivasyon varsayılanlarındaki API anahtarları kaldırıldı (yalnızca WordPress ayarlarından girilmeli). Bu anahtarlar daha önce repoda metin olarak bulunduğu için ilgili sağlayıcılarda yenilemeniz önerilir. |

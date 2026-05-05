@@ -211,12 +211,11 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                         <td>
                             <div class="borsatek-row-actions">
                                 <!-- Dönüştür -->
-                                <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline;">
-                                    <?php wp_nonce_field( 'borsatek_convert_queue' ); ?>
-                                    <input type="hidden" name="action"   value="borsatek_convert_queue">
-                                    <input type="hidden" name="queue_id" value="<?php echo esc_attr( $item['id'] ); ?>">
-                                    <button type="submit" class="button button-small">Dönüştür</button>
-                                </form>
+                                <button class="button button-small borsatek-convert-single-btn" 
+                                        data-queue-id="<?php echo esc_attr( $item['id'] ); ?>"
+                                        data-focus-keyword="<?php echo esc_attr( $item['focusKeyword'] ?? '' ); ?>">
+                                    Dönüştür
+                                </button>
 
                                 <!-- Önizle -->
                                 <button class="button button-small borsatek-preview-btn"
@@ -287,5 +286,29 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
             <strong>SEO Kuralları:</strong>
             <div id="borsatek-preview-rules" class="borsatek-preview-rules"></div>
         </div>
+    </div>
+</div>
+
+<!-- Odak Kelime Modal'ı -->
+<div id="borsatek-focus-keyword-modal" style="display:none;">
+    <div class="borsatek-modal-overlay"></div>
+    <div class="borsatek-modal-box" style="max-width:500px;">
+        <button id="borsatek-focus-modal-close" class="borsatek-modal-close">✕</button>
+        <h2>Odak Kelime Gerekli</h2>
+        <p>SEO optimizasyonu için önce odak kelime belirtmelisiniz:</p>
+        
+        <form id="borsatek-focus-form">
+            <div class="borsatek-field">
+                <label for="borsatek-modal-focus-keyword">Odak Kelime <span class="required">*</span></label>
+                <input type="text" id="borsatek-modal-focus-keyword" 
+                       placeholder="Örn: dolar kuru, enflasyon" class="regular-text" required>
+                <p class="description">Bu haberin ana konusunu temsil eden anahtar kelime.</p>
+            </div>
+            
+            <div class="borsatek-modal-actions">
+                <button type="button" id="borsatek-focus-cancel" class="button">İptal</button>
+                <button type="submit" class="button button-primary">Devam Et</button>
+            </div>
+        </form>
     </div>
 </div>

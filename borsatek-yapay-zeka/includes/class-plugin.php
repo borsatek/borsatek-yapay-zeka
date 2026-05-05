@@ -118,6 +118,8 @@ class BorsatekPlugin {
         add_action( 'wp_ajax_borsatek_fetch_gemini_models', [ $this->admin, 'ajaxFetchGeminiModels' ] );
         add_action( 'wp_ajax_borsatek_test_ai_connection',  [ $this->admin, 'ajaxTestAiConnection' ] );
         add_action( 'wp_ajax_borsatek_troubleshoot_explain',[ $this->admin, 'ajaxTroubleshootExplain' ] );
+        add_action( 'wp_ajax_borsatek_update_focus_keyword', [ $this->admin, 'handleUpdateFocusKeyword' ] );
+        add_action( 'wp_ajax_borsatek_generate_convert_nonce', [ $this->admin, 'ajaxGenerateConvertNonce' ] );
 
         // Cron callback'leri
         add_action( 'borsatek_cron_scan_rss',      [ $this->scanner, 'runScan' ] );
