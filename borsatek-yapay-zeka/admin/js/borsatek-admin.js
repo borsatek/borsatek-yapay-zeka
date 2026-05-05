@@ -26,60 +26,7 @@ jQuery( document ).ready( function ( $ ) {
         } );
     } );
 
-    // ── 2. Önizleme ───────────────────────────────────────────────────────────
-    $( document ).on( 'click', '.borsatek-preview-btn', function ( e ) {
-        e.preventDefault();
-        var $btn         = $( this );
-        var queueId      = $btn.data( 'queue-id' );
-        var focusKeyword = $btn.data( 'focus-keyword' ) || '';
-
-        $btn.prop( 'disabled', true ).text( 'İşleniyor...' );
-
-        $.post( borsatekData.ajaxUrl, {
-            action:        'borsatek_preview',
-            nonce:         borsatekData.nonce,
-            queue_id:      queueId,
-            focus_keyword: focusKeyword
-        }, function ( res ) {
-            $btn.prop( 'disabled', false ).text( 'Önizle' );
-
-            if ( res.success ) {
-                var d          = res.data;
-                var score      = d.seoScore ? d.seoScore.score : 0;
-                var scoreColor = score >= 80 ? '#1B5E20' : ( score >= 60 ? '#E65100' : '#B71C1C' );
-
-                $( '#borsatek-preview-title' ).text( d.title || '' );
-                $( '#borsatek-preview-score' ).html(
-                    '<span style="color:' + scoreColor + ';font-weight:bold;font-size:20px;">' +
-                    score + '/100</span>'
-                );
-                $( '#borsatek-preview-meta' ).text( d.metaDescription || '' );
-
-                var bodyPreview = d.body ? d.body.replace( /<[^>]+>/g, '' ).substring( 0, 500 ) + '...' : '';
-                $( '#borsatek-preview-body' ).text( bodyPreview );
-
-                var passedHtml = '';
-                var failedHtml = '';
-                if ( d.seoScore ) {
-                    $.each( d.seoScore.passed || [], function ( i, p ) {
-                        passedHtml += '<li style="color:#1B5E20">✓ ' + $( '<div>' ).text( p ).html() + '</li>';
-                    } );
-                    $.each( d.seoScore.failed || [], function ( i, f ) {
-                        failedHtml += '<li style="color:#B71C1C">✗ ' + $( '<div>' ).text( f ).html() + '</li>';
-                    } );
-                }
-                $( '#borsatek-preview-rules' ).html( '<ul>' + passedHtml + failedHtml + '</ul>' );
-                $( '#borsatek-preview-modal' ).fadeIn( 200 );
-
-            } else {
-                var errMsg = res.data && res.data.message ? res.data.message : 'Bilinmeyen hata';
-                alert( 'Önizleme hatası: ' + errMsg );
-            }
-        } ).fail( function () {
-            $btn.prop( 'disabled', false ).text( 'Önizle' );
-            alert( 'Sunucu hatası oluştu.' );
-        } );
-    } );
+    // Önizleme tıklaması: akış satırı odak kelimesi + modal mantığı aşağıda (bölüm 12).
 
     // Modal kapat
     $( '#borsatek-preview-modal-close, #borsatek-preview-modal' ).on( 'click', function ( e ) {
@@ -113,52 +60,7 @@ jQuery( document ).ready( function ( $ ) {
             .text( checked > 0 ? checked + ' Haberi Sil' : 'Seçilenleri Sil' );
     }
 
-    $( '#borsatek-bulk-convert-btn' ).on( 'click', function ( e ) {
-        e.preventDefault();
-        var ids = $( 'input.borsatek-queue-checkbox:checked' ).map( function () {
-            return $( this ).val();
-        } ).get();
-
-        if ( ! ids.length ) return;
-        if ( ! confirm( ids.length + ' haber dönüştürülecek. Bu işlem biraz zaman alabilir. Emin misiniz?' ) ) return;
-
-        var $btn      = $( this ).prop( 'disabled', true );
-        var $progress = $( '#borsatek-bulk-progress' ).show();
-        var done      = 0;
-        var errors    = 0;
-
-        function processNext() {
-            if ( done >= ids.length ) {
-                $progress.text( 'Tamamlandı! ' + ( ids.length - errors ) + ' başarılı, ' + errors + ' hatalı.' );
-                setTimeout( function () {
-                    location.reload();
-                }, 2000 );
-                return;
-            }
-
-            $progress.text( 'İşleniyor: ' + ( done + 1 ) + ' / ' + ids.length );
-
-            $.post( borsatekData.ajaxUrl, {
-                action:    'borsatek_bulk_convert',
-                nonce:     borsatekData.nonce,
-                queue_ids: [ ids[ done ] ]
-            }, function ( res ) {
-                if ( res.success && res.data && res.data.results ) {
-                    $.each( res.data.results, function ( i, r ) {
-                        if ( ! r.success ) errors++;
-                    } );
-                }
-                done++;
-                processNext();
-            } ).fail( function () {
-                errors++;
-                done++;
-                processNext();
-            } );
-        }
-
-        processNext();
-    } );
+    // Toplu dönüştürme işleyicisi: bölüm 12 (odak kelime + sunucuya yazdırma).
 
     // ── 3b. Toplu Silme ───────────────────────────────────────────────────────
     $( '#borsatek-bulk-delete-btn' ).on( 'click', function ( e ) {
@@ -467,17 +369,74 @@ jQuery( document ).ready( function ( $ ) {
     var currentQueueId = null;
     var currentAction = null;
 
+    function getRowFocusKeyword( queueId ) {
+        var qid = String( queueId );
+        var $inp = $( '.borsatek-inline-focus-keyword[data-queue-id="' + qid + '"]' );
+        var inlineKw = $inp.length ? ( $inp.val() || '' ).trim() : '';
+        if ( inlineKw ) {
+            return inlineKw;
+        }
+        var $c = $( '.borsatek-convert-single-btn[data-queue-id="' + qid + '"]' );
+        return ( $c.attr( 'data-focus-keyword' ) || $c.data( 'focus-keyword' ) || '' ).toString().trim();
+    }
+
+    function syncFocusKeywordUi( queueId, focusKeyword ) {
+        var qid = String( queueId );
+        var kw = ( focusKeyword || '' ).trim();
+        $( '.borsatek-inline-focus-keyword[data-queue-id="' + qid + '"]' ).val( kw );
+        $( '.borsatek-convert-single-btn[data-queue-id="' + qid + '"], .borsatek-preview-btn[data-queue-id="' + qid + '"]' ).attr( 'data-focus-keyword', kw );
+        var ready = kw !== '';
+        $( '.borsatek-convert-single-btn[data-queue-id="' + qid + '"], .borsatek-preview-btn[data-queue-id="' + qid + '"]' ).each( function () {
+            var $b = $( this );
+            if ( ready ) {
+                $b.removeClass( 'borsatek-needs-keyword' ).removeAttr( 'title' );
+                $b.text( $b.hasClass( 'borsatek-preview-btn' ) ? 'Önizle' : 'Dönüştür' );
+            } else {
+                $b.addClass( 'borsatek-needs-keyword' ).attr( 'title', 'Önce odak kelime yazıp Kaydet\'e basın veya kutuya yazıp Dönüştür\'e basın.' );
+                $b.text( $b.hasClass( 'borsatek-preview-btn' ) ? '⚠️ Önizle' : '⚠️ Dönüştür' );
+            }
+        } );
+        $( '.borsatek-save-focus-inline[data-queue-id="' + qid + '"]' ).closest( 'td' ).find( '.borsatek-focus-hint' ).remove();
+    }
+
+    $( document ).on( 'click', '.borsatek-save-focus-inline', function () {
+        var queueId = $( this ).data( 'queue-id' );
+        var kw = getRowFocusKeyword( queueId );
+        if ( ! kw ) {
+            alert( 'Önce odak kelime kutusuna yazın.' );
+            $( '.borsatek-inline-focus-keyword[data-queue-id="' + String( queueId ) + '"]' ).focus();
+            return;
+        }
+        var $btn = $( this ).prop( 'disabled', true ).text( '…' );
+        $.post( borsatekData.ajaxUrl, {
+            action: 'borsatek_update_focus_keyword',
+            nonce: borsatekData.nonce,
+            queue_id: queueId,
+            focus_keyword: kw
+        }, function ( res ) {
+            $btn.prop( 'disabled', false ).text( 'Kaydet' );
+            if ( res.success ) {
+                syncFocusKeywordUi( queueId, kw );
+            } else {
+                alert( res.data && res.data.message ? res.data.message : 'Kaydedilemedi.' );
+            }
+        } ).fail( function () {
+            $btn.prop( 'disabled', false ).text( 'Kaydet' );
+            alert( 'Sunucu hatası.' );
+        } );
+    } );
+
     // Tek dönüştürme butonu
     $( document ).on( 'click', '.borsatek-convert-single-btn', function ( e ) {
         e.preventDefault();
         var queueId = $( this ).data( 'queue-id' );
-        var focusKeyword = $( this ).data( 'focus-keyword' ) || '';
-        
-        if ( ! focusKeyword.trim() ) {
+        var focusKeyword = getRowFocusKeyword( queueId );
+
+        if ( ! focusKeyword ) {
             currentQueueId = queueId;
             currentAction = 'convert-single';
             $( '#borsatek-focus-keyword-modal' ).fadeIn( 200 );
-            $( '#borsatek-modal-focus-keyword' ).focus();
+            $( '#borsatek-modal-focus-keyword' ).val( '' ).focus();
         } else {
             convertSingleQueue( queueId, focusKeyword );
         }
@@ -487,15 +446,14 @@ jQuery( document ).ready( function ( $ ) {
     $( document ).on( 'click', '.borsatek-preview-btn', function ( e ) {
         e.preventDefault();
         var queueId = $( this ).data( 'queue-id' );
-        var focusKeyword = $( this ).data( 'focus-keyword' ) || '';
-        
-        if ( ! focusKeyword.trim() ) {
+        var focusKeyword = getRowFocusKeyword( queueId );
+
+        if ( ! focusKeyword ) {
             currentQueueId = queueId;
             currentAction = 'preview';
             $( '#borsatek-focus-keyword-modal' ).fadeIn( 200 );
-            $( '#borsatek-modal-focus-keyword' ).focus();
+            $( '#borsatek-modal-focus-keyword' ).val( '' ).focus();
         } else {
-            // Mevcut önizleme kodunu çalıştır
             performPreview( queueId, focusKeyword );
         }
     } );
@@ -504,28 +462,22 @@ jQuery( document ).ready( function ( $ ) {
     $( '#borsatek-bulk-convert-btn' ).off( 'click' ).on( 'click', function ( e ) {
         e.preventDefault();
         var checkedInputs = $( 'input.borsatek-queue-checkbox:checked' );
-        
+
         if ( checkedInputs.length === 0 ) return;
-        
-        // Seçili öğelerde odak kelime var mı kontrol et
+
         var missingKeywords = [];
         checkedInputs.each( function () {
             var queueId = $( this ).val();
-            var $row = $( this ).closest( 'tr' );
-            var $convertBtn = $row.find( '.borsatek-convert-single-btn' );
-            var focusKeyword = $convertBtn.data( 'focus-keyword' ) || '';
-            
-            if ( ! focusKeyword.trim() ) {
+            if ( ! getRowFocusKeyword( queueId ) ) {
                 missingKeywords.push( queueId );
             }
         } );
-        
+
         if ( missingKeywords.length > 0 ) {
-            alert( missingKeywords.length + ' haberde odak kelime eksik! Önce her habere odak kelime ekleyin.' );
+            alert( missingKeywords.length + ' satırda odak kelime yok (kutu boş). Her satırdaki kutuya yazıp Kaydet\'e basın.' );
             return;
         }
-        
-        // Tümünde odak kelime varsa devam et
+
         performBulkConvert( checkedInputs );
     } );
 
@@ -643,9 +595,37 @@ jQuery( document ).ready( function ( $ ) {
 
     function performBulkConvert( checkedInputs ) {
         var ids = checkedInputs.map( function () { return $( this ).val(); } ).get();
-        
+
         if ( ! confirm( ids.length + ' haber dönüştürülecek. Bu işlem biraz zaman alabilir. Emin misiniz?' ) ) return;
 
+        function persistKeywordsThenConvert( index ) {
+            if ( index >= ids.length ) {
+                runBulkConvertAjax( ids );
+                return;
+            }
+            var qid = ids[ index ];
+            var kw = getRowFocusKeyword( qid );
+            $.post( borsatekData.ajaxUrl, {
+                action: 'borsatek_update_focus_keyword',
+                nonce: borsatekData.nonce,
+                queue_id: qid,
+                focus_keyword: kw
+            }, function ( res ) {
+                if ( ! res.success ) {
+                    alert( 'Odak kelime kaydı başarısız (ID ' + qid + '): ' + ( res.data && res.data.message ? res.data.message : '' ) );
+                    return;
+                }
+                syncFocusKeywordUi( qid, kw );
+                persistKeywordsThenConvert( index + 1 );
+            } ).fail( function () {
+                alert( 'Odak kelime kaydı sırasında sunucu hatası.' );
+            } );
+        }
+
+        persistKeywordsThenConvert( 0 );
+    }
+
+    function runBulkConvertAjax( ids ) {
         var $btn = $( '#borsatek-bulk-convert-btn' ).prop( 'disabled', true );
         var $progress = $( '#borsatek-bulk-progress' ).show();
         var done = 0;
@@ -690,9 +670,7 @@ jQuery( document ).ready( function ( $ ) {
             focus_keyword: focusKeyword
         }, function ( res ) {
             if ( res.success ) {
-                // Sayfadaki data-focus-keyword'ü güncelle
-                $( '.borsatek-convert-single-btn[data-queue-id="' + queueId + '"]' ).attr( 'data-focus-keyword', focusKeyword );
-                $( '.borsatek-preview-btn[data-queue-id="' + queueId + '"]' ).attr( 'data-focus-keyword', focusKeyword );
+                syncFocusKeywordUi( queueId, focusKeyword );
                 if ( callback ) callback();
             } else {
                 alert( 'Odak kelime güncellenemedi: ' + ( res.data && res.data.message ? res.data.message : 'Hata' ) );

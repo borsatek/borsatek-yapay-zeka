@@ -254,6 +254,30 @@
     background: #FFE0B2 !important;
 }
 
+/* Haber akışı — satır içi odak kelime */
+.borsatek-focus-cell {
+    min-width: 210px;
+    vertical-align: middle;
+}
+
+.borsatek-focus-inline-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.borsatek-inline-focus-keyword {
+    max-width: 168px !important;
+    flex: 1 1 120px;
+}
+
+.borsatek-focus-hint {
+    margin: 6px 0 0 !important;
+    font-size: 11px !important;
+    line-height: 1.35;
+}
+
 /* ── Badge'ler ───────────────────────────────────────────────────────────────── */
 .borsatek-badge {
     display: inline-flex;

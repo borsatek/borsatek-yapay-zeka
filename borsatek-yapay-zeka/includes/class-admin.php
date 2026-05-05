@@ -348,6 +348,12 @@ class BorsatekAdmin {
             return;
         }
 
+        $postedKw = isset( $_POST['focus_keyword'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['focus_keyword'] ) ) : '';
+        if ( $postedKw !== '' ) {
+            update_post_meta( $queueId, BorsatekQueue::META_FOCUS_KEYWORD, $postedKw );
+            $item['focusKeyword'] = $postedKw;
+        }
+
         $refreshed     = $this->maybeRefreshQueueItemSource( $item, $queueId );
         $sourceContent = $refreshed['content'];
         $sourceTitle   = $refreshed['title'];
@@ -830,9 +836,9 @@ class BorsatekAdmin {
      * AJAX: Kuyruk öğesinin odak kelimesini günceller
      */
     public function handleUpdateFocusKeyword(): void {
-        check_ajax_referer( 'borsatek_nonce', 'nonce' );
+        check_ajax_referer( 'borsatek_ajax', 'nonce' );
 
-        if ( ! $this->permissions->canManageAi() ) {
+        if ( ! $this->permissions->canAccessStream() ) {
             wp_send_json_error( [ 'message' => 'Yetkiniz yok.' ] );
         }
 

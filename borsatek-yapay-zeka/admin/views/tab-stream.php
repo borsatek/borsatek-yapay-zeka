@@ -145,6 +145,7 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                                   : $item['title'];
                     $feedHost    = parse_url( $item['sourceFeed'], PHP_URL_HOST ) ?: $item['sourceFeed'];
                     $feedHost    = $feedHost ?: '—';
+                    $focusKwRow  = isset( $item['focusKeyword'] ) ? trim( (string) $item['focusKeyword'] ) : '';
                 ?>
                     <tr class="<?php echo esc_attr( $statusClass ); ?>">
                         <td class="check-column">
@@ -187,17 +188,28 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                                 <?php echo esc_html( $priorityLabel[ $priority ] ?? 'Normal' ); ?>
                             </span>
                         </td>
-                        <td>
-                            <?php 
-                            $focusKeyword = $item['focusKeyword'] ?? '';
-                            if ( ! empty( $focusKeyword ) ) {
-                                echo '<span class="borsatek-badge borsatek-badge-success" title="' . esc_attr( $focusKeyword ) . '">';
-                                echo esc_html( mb_strlen( $focusKeyword ) > 20 ? mb_substr( $focusKeyword, 0, 17 ) . '...' : $focusKeyword );
-                                echo '</span>';
-                            } else {
-                                echo '<span class="borsatek-badge borsatek-badge-warning">⚠️ Eksik</span>';
-                            }
-                            ?>
+                        <td class="borsatek-focus-cell">
+                            <div class="borsatek-focus-inline-wrap">
+                                <label class="screen-reader-text" for="borsatek-focus-<?php echo esc_attr( (string) $item['id'] ); ?>">
+                                    Odak kelime
+                                </label>
+                                <input type="text"
+                                       id="borsatek-focus-<?php echo esc_attr( (string) $item['id'] ); ?>"
+                                       class="regular-text borsatek-inline-focus-keyword"
+                                       value="<?php echo esc_attr( $focusKwRow ); ?>"
+                                       placeholder="Örn: altın fiyatları"
+                                       maxlength="120"
+                                       autocomplete="off"
+                                       data-queue-id="<?php echo esc_attr( $item['id'] ); ?>">
+                                <button type="button"
+                                        class="button button-small borsatek-save-focus-inline"
+                                        data-queue-id="<?php echo esc_attr( $item['id'] ); ?>">
+                                    Kaydet
+                                </button>
+                            </div>
+                            <?php if ( $focusKwRow === '' ) : ?>
+                                <p class="borsatek-focus-hint description">Dönüştürmeden önce kutuya yazıp Kaydet’e basın (isteğe bağlı).</p>
+                            <?php endif; ?>
                         </td>
                         <td>
                             <?php
@@ -223,21 +235,21 @@ $asyncJobId = absint( $_GET['async_job_id'] ?? 0 );
                         </td>
                         <td>
                             <div class="borsatek-row-actions">
-                                <?php $hasFocusKeyword = ! empty( $item['focusKeyword'] ?? '' ); ?>
-                                
+                                <?php $hasFocusKeyword = $focusKwRow !== ''; ?>
+
                                 <!-- Dönüştür -->
-                                <button class="button button-small borsatek-convert-single-btn <?php echo $hasFocusKeyword ? '' : 'borsatek-needs-keyword'; ?>" 
+                                <button class="button button-small borsatek-convert-single-btn <?php echo $hasFocusKeyword ? '' : 'borsatek-needs-keyword'; ?>"
                                         data-queue-id="<?php echo esc_attr( $item['id'] ); ?>"
-                                        data-focus-keyword="<?php echo esc_attr( $item['focusKeyword'] ?? '' ); ?>"
-                                        <?php echo $hasFocusKeyword ? '' : 'title="⚠️ Önce odak kelime ekleyin"'; ?>>
+                                        data-focus-keyword="<?php echo esc_attr( $focusKwRow ); ?>"
+                                        <?php echo $hasFocusKeyword ? '' : 'title="Önce Odak kelime sütununa yazın veya Kaydet\'e basın"'; ?>>
                                     <?php echo $hasFocusKeyword ? 'Dönüştür' : '⚠️ Dönüştür'; ?>
                                 </button>
 
                                 <!-- Önizle -->
                                 <button class="button button-small borsatek-preview-btn <?php echo $hasFocusKeyword ? '' : 'borsatek-needs-keyword'; ?>"
                                         data-queue-id="<?php echo esc_attr( $item['id'] ); ?>"
-                                        data-focus-keyword="<?php echo esc_attr( $item['focusKeyword'] ?? '' ); ?>"
-                                        <?php echo $hasFocusKeyword ? '' : 'title="⚠️ Önce odak kelime ekleyin"'; ?>>
+                                        data-focus-keyword="<?php echo esc_attr( $focusKwRow ); ?>"
+                                        <?php echo $hasFocusKeyword ? '' : 'title="Önce Odak kelime sütununa yazın veya Kaydet\'e basın"'; ?>>
                                     <?php echo $hasFocusKeyword ? 'Önizle' : '⚠️ Önizle'; ?>
                                 </button>
 

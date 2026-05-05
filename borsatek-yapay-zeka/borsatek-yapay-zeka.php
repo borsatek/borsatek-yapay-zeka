@@ -3,7 +3,7 @@
  * Plugin Name: Borsatek Yapay Zeka
  * Plugin URI:  https://borsatek.com
  * Description: RSS kaynaklarından finans haberleri çeker, Anthropic/Gemini ile SEO'lu Türkçe içerik üretir, WordPress'e taslak kaydeder.
- * Version:     2.0.0
+ * Version:     2.0.1
  * Author:      Borsatek
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Sabitler
-define( 'BORSATEK_YZ_VERSION',  '2.0.0' );
+define( 'BORSATEK_YZ_VERSION',  '2.0.1' );
 define( 'BORSATEK_YZ_FILE',     __FILE__ );
 define( 'BORSATEK_YZ_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'BORSATEK_YZ_URL',      plugin_dir_url( __FILE__ ) );
