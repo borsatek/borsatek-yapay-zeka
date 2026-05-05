@@ -1,0 +1,27 @@
+# İşletim sistemi
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ortam / gizli anahtarlar (API vb. asla commit etmeyin)
+.env
+.env.*
+*.pem
+
+# IDE
+.idea/
+
+# PHP / Composer (ileride eklenirse)
+/vendor/
+
+# Node (ileride eklenirse)
+node_modules/
+
+# Günlük ve geçici dosyalar
+*.log
+*.tmp
+*.bak
+*~
+
+# Yerel yedek / paket çıktıları (isteğe bağlı)
+*.zip

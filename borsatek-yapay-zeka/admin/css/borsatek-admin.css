@@ -1,0 +1,761 @@
+/* =============================================================================
+   Borsatek Yapay Zeka — Admin Panel Stilleri
+   ============================================================================= */
+
+/* ── Genel Wrap ─────────────────────────────────────────────────────────────── */
+.borsatek-wrap {
+    max-width: 1400px;
+}
+
+.borsatek-wrap h1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+.borsatek-version {
+    font-size: 13px;
+    color: #888;
+    font-weight: normal;
+    background: #f0f0f1;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* ── Sekme Navigasyonu ──────────────────────────────────────────────────────── */
+.borsatek-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.borsatek-tab {
+    display: inline-block;
+    padding: 10px 18px;
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.borsatek-tab:hover {
+    color: #1565C0;
+    border-bottom-color: #90CAF9;
+}
+
+.borsatek-tab-active {
+    color: #1565C0 !important;
+    border-bottom-color: #1565C0 !important;
+    font-weight: 600;
+}
+
+/* ── Kart ───────────────────────────────────────────────────────────────────── */
+.borsatek-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.borsatek-card-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f0f0f1;
+    padding-bottom: 12px;
+}
+
+.borsatek-card-desc {
+    color: #666;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* ── Araç Çubuğu ────────────────────────────────────────────────────────────── */
+.borsatek-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.borsatek-toolbar-left,
+.borsatek-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.borsatek-last-scan {
+    font-size: 13px;
+    color: #666;
+}
+
+.borsatek-queue-count {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ── Filtre Satırı ───────────────────────────────────────────────────────────── */
+.borsatek-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.borsatek-filter-select,
+.borsatek-filter-input {
+    height: 30px;
+    padding: 0 8px;
+    font-size: 13px;
+}
+
+.borsatek-filter-input {
+    min-width: 180px;
+}
+
+/* ── Toplu İşlem ────────────────────────────────────────────────────────────── */
+.borsatek-bulk-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+}
+
+.borsatek-progress {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #1565C0;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ── Kuyruk Tablosu ──────────────────────────────────────────────────────────── */
+.borsatek-queue-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.borsatek-queue-table thead th {
+    background: #f8f9fa;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    white-space: nowrap;
+}
+
+.borsatek-queue-table tbody td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.borsatek-queue-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.borsatek-queue-table tbody tr:nth-child(even) {
+    background: #fafbfc;
+}
+
+.borsatek-queue-table tbody tr:nth-child(even):hover {
+    background: #f5f6f7;
+}
+
+.borsatek-row-running {
+    background-color: #fffde7 !important;
+}
+
+.borsatek-row-done {
+    opacity: 0.7;
+}
+
+.borsatek-row-error {
+    background-color: #fff5f5 !important;
+}
+
+.borsatek-source-link {
+    text-decoration: none;
+    color: #1565C0;
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+.borsatek-feed-host {
+    font-size: 12px;
+    color: #777;
+    font-style: italic;
+}
+
+.borsatek-error-text {
+    color: #B71C1C;
+    font-size: 11px;
+}
+
+.borsatek-muted {
+    color: #aaa;
+}
+
+/* ── İşlem Butonları ─────────────────────────────────────────────────────────── */
+.borsatek-row-actions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.borsatek-btn-danger {
+    color: #B71C1C !important;
+    border-color: #B71C1C !important;
+}
+
+.borsatek-btn-danger:hover {
+    background: #B71C1C !important;
+    color: #fff !important;
+}
+
+/* ── Badge'ler ───────────────────────────────────────────────────────────────── */
+.borsatek-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Async durum badge'leri */
+.borsatek-badge-queued {
+    background: #f0f0f1;
+    color: #555;
+}
+
+.borsatek-badge-running {
+    background: #fff9c4;
+    color: #7B6000;
+    border: 1px solid #F9A825;
+}
+
+.borsatek-badge-done {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #81C784;
+}
+
+.borsatek-badge-error {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+}
+
+/* Öncelik badge'leri */
+.borsatek-priority-high {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+}
+
+.borsatek-priority-normal {
+    background: #E3F2FD;
+    color: #1565C0;
+    border: 1px solid #90CAF9;
+}
+
+.borsatek-priority-low {
+    background: #F5F5F5;
+    color: #757575;
+    border: 1px solid #BDBDBD;
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────────────── */
+.borsatek-spinner,
+.borsatek-spinner-inline {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ddd;
+    border-top-color: #1565C0;
+    border-radius: 50%;
+    animation: borsatek-spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes borsatek-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Önizleme Modal ──────────────────────────────────────────────────────────── */
+#borsatek-preview-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.borsatek-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
+
+.borsatek-modal-box {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 28px 32px;
+    width: 90%;
+    max-width: 720px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+
+.borsatek-modal-box h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #1a1a1a;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+}
+
+.borsatek-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #888;
+    padding: 4px 8px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.borsatek-modal-close:hover {
+    color: #B71C1C;
+}
+
+.borsatek-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.borsatek-preview-title-wrap {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.borsatek-preview-score-wrap {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.borsatek-preview-section {
+    margin-bottom: 14px;
+    font-size: 13px;
+}
+
+.borsatek-preview-section strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.borsatek-preview-meta {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-left: 3px solid #1565C0;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+    border-radius: 0 3px 3px 0;
+}
+
+.borsatek-preview-body {
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #555;
+    white-space: pre-wrap;
+}
+
+.borsatek-preview-rules ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12px;
+    line-height: 1.8;
+    columns: 2;
+    column-gap: 20px;
+}
+
+/* ── Async Bildirim ──────────────────────────────────────────────────────────── */
+.borsatek-async-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #E3F2FD;
+    border: 1px solid #90CAF9;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #1565C0;
+}
+
+.borsatek-async-success {
+    background: #E8F5E9 !important;
+    border-color: #81C784 !important;
+    color: #2E7D32 !important;
+}
+
+.borsatek-async-error {
+    background: #FFEBEE !important;
+    border-color: #EF9A9A !important;
+    color: #C62828 !important;
+}
+
+/* ── İstatistik Kartları ─────────────────────────────────────────────────────── */
+.borsatek-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.borsatek-stat-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    transition: box-shadow 0.2s;
+}
+
+.borsatek-stat-card:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.borsatek-stat-icon .dashicons {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+}
+
+.borsatek-stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.borsatek-stat-label {
+    font-size: 13px;
+    color: #555;
+    margin-top: 3px;
+}
+
+.borsatek-stat-sub {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 2px;
+}
+
+.borsatek-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.borsatek-ratio-bar {
+    display: inline-block;
+    width: 80px;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.borsatek-ratio-fill {
+    height: 100%;
+    background: #1565C0;
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+/* ── İki Sütun Düzeni ────────────────────────────────────────────────────────── */
+.borsatek-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* ── Form Elemanları ─────────────────────────────────────────────────────────── */
+.borsatek-field {
+    margin-bottom: 16px;
+}
+
+.borsatek-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #333;
+}
+
+.borsatek-field .description {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #777;
+}
+
+.required {
+    color: #B71C1C;
+}
+
+.borsatek-radio-label {
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* ── Bilgi & Uyarı Kutuları ──────────────────────────────────────────────────── */
+.borsatek-info-box,
+.borsatek-notice-box {
+    display: flex;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #E3F2FD;
+    border: 1px solid #90CAF9;
+    border-radius: 6px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #1a3a5c;
+}
+
+.borsatek-notice-box {
+    background: #FFF8E1;
+    border-color: #FFD54F;
+    color: #4a3500;
+}
+
+.borsatek-info-box .dashicons,
+.borsatek-notice-box .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.borsatek-info-box ul,
+.borsatek-notice-box ul,
+.borsatek-info-box ol,
+.borsatek-notice-box ol {
+    margin: 6px 0 0 0;
+    padding-left: 20px;
+}
+
+.borsatek-info-box li,
+.borsatek-notice-box li {
+    margin-bottom: 4px;
+}
+
+/* ── Tehlikeli Bölge ─────────────────────────────────────────────────────────── */
+.borsatek-danger-zone {
+    border-color: #FFCDD2;
+    background: #FFF5F5;
+}
+
+/* ── Cron Durumu ─────────────────────────────────────────────────────────────── */
+.borsatek-cron-status {
+    margin: 14px 0;
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+}
+
+.borsatek-info-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+}
+
+.borsatek-info-table td {
+    padding: 5px 10px 5px 0;
+    vertical-align: top;
+}
+
+.borsatek-info-table td:first-child {
+    width: 180px;
+    color: #555;
+}
+
+/* ── Sayfalama ───────────────────────────────────────────────────────────────── */
+.borsatek-pagination {
+    display: flex;
+    gap: 5px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.borsatek-pagination .current {
+    background: #1565C0 !important;
+    color: #fff !important;
+    border-color: #1565C0 !important;
+}
+
+/* ── Boş Durum ───────────────────────────────────────────────────────────────── */
+.borsatek-empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #aaa;
+}
+
+.borsatek-empty-state .dashicons {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin: 0 auto 12px;
+}
+
+.borsatek-empty-state p {
+    font-size: 15px;
+}
+
+/* ── Kod Stili Alanlar ───────────────────────────────────────────────────────── */
+.borsatek-code-input,
+textarea.code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-color: #333;
+}
+
+/* ── FAQ / Detaylar ──────────────────────────────────────────────────────────── */
+.borsatek-faq details {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.borsatek-faq details:last-child {
+    border-bottom: none;
+}
+
+.borsatek-faq summary {
+    cursor: pointer;
+    padding: 4px 0;
+    user-select: none;
+    font-size: 13px;
+}
+
+.borsatek-faq summary:hover {
+    color: #1565C0;
+}
+
+.borsatek-faq details > div {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    background: #fafafa;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.borsatek-faq details > div code {
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.borsatek-faq details > div ol,
+.borsatek-faq details > div ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+/* ── Kaydet Çubuğu ───────────────────────────────────────────────────────────── */
+.borsatek-save-bar {
+    position: sticky;
+    bottom: 20px;
+    background: transparent;
+    z-index: 100;
+}
+
+.borsatek-save-bar .button-large {
+    box-shadow: 0 2px 8px rgba(21,101,192,0.3);
+}
+
+/* ── Feed URL Linki ──────────────────────────────────────────────────────────── */
+.borsatek-feed-url {
+    text-decoration: none;
+    color: #1565C0;
+    font-weight: 500;
+}
+
+.borsatek-feed-url:hover {
+    text-decoration: underline;
+}
+
+/* ── Gizli Eleman ────────────────────────────────────────────────────────────── */
+.borsatek-hidden {
+    display: none !important;
+}
