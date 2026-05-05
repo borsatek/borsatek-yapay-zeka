@@ -12,7 +12,15 @@ class BorsatekSeoEngine {
         'ECB', 'NYSE', 'SPK', 'BDDK', 'AAPL', 'MSFT', 'NVDA',
         'TSLA', 'EU', 'UK', 'US', 'USD', 'EUR', 'GBP', 'JPY',
         'NATO', 'OPEC', 'BTC', 'ETH',
+        'CENTCOM', 'WTI', 'NASDAQ', 'BAE', 'İHA', 'TSİ', 'SP500',
     ];
+
+    /**
+     * Kısaltma listesi eşlemesi için sözcükten yapışık noktalama/parantez soyar.
+     */
+    private static function tokenForAbbrevLookup( string $token ): string {
+        return preg_replace( '/^[\s"\',\(\[\{«]+|[\s"\',\.\;\:\!\?\)\]\}»]+$/u', '', $token );
+    }
 
     /**
      * Varsayılan SEO kural setini döndürür.
@@ -704,8 +712,9 @@ PROMPT;
                 continue;
             }
             $clean = strip_tags( $word );
+            $abbrLookup = self::tokenForAbbrevLookup( $clean );
             // Korunan kısaltmalarsa dokunma
-            if ( in_array( $clean, self::PROTECTED_ABBR, true ) ) {
+            if ( in_array( $abbrLookup, self::PROTECTED_ABBR, true ) ) {
                 $result[] = $word;
                 continue;
             }
@@ -729,7 +738,7 @@ PROMPT;
      */
     public function deScreamTurkish( string $word ): string {
         $clean = strip_tags( $word );
-        if ( in_array( $clean, self::PROTECTED_ABBR, true ) ) {
+        if ( in_array( self::tokenForAbbrevLookup( $clean ), self::PROTECTED_ABBR, true ) ) {
             return $word;
         }
         $lower = mb_strtolower( $clean, 'UTF-8' );

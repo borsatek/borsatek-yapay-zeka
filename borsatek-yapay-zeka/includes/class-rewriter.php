@@ -228,7 +228,7 @@ DEPTH;
         }
 
         return <<<PROMPT
-⚠️ MUTLAK KURAL: Bu görevi sadece KAYNAK METİNDEKİ bilgilerle yapacaksın. Kendi bilgini, genel piyasa yorumunu, teorik açıklamaları EKLEME. Kaynak metindeki her rakam, isim, olay KORUNMALI. Hallüsinasyon YASAK!
+⚠️ MUTLAK KURAL: Kaynak dışı bilgi ve rakam UYDURMA. Olan bilgiyi profesyonel haber Türkçesiyle, SEO kurallarına uygun şekilde YENİDEN YAZ (kopyala-yapıştır değil).
 
 === SEO Dönüştürme Komutları ===
 {$rulesSection}
@@ -252,36 +252,27 @@ Aşağıdaki makaleyi yeniden yazıyorsun; başka kaynak veya genel bilgi kullan
 
 🚨 KRİTİK: KAYNAK SADAKATİ — İHLAL EDİLEMEZ KURALLAR 🚨
 
-Bu kurallar MUTLAK önceliklidir. İhlal halinde yanıt REDDEDİLİR:
+Bu kurallar mutlak önceliklidir (çelişki olursa önce bunlar):
 
-1. **RAKAM VE VERI SADAKATİ (ZORUNLU):**
-   - Kaynak metindeki EVERY rakamı, yüzdeyi, fiyatı, oranı AYNEN kullan
-   - Ons altın 4.539,75 dolar ise → AYNEN yaz, 4.540'a yuvarlama
-   - Yüzde 0,4 artış ise → AYNEN yaz, "hafif artış" deme
-   - Haziran vadeli 4.548,10 dolar ise → MUTLAKA dahil et
-   - Tarih/saat bilgileri (saat 05.13 gibi) KORUNMALI
+1. **RAKAM VE VERİ:** Kaynakta geçen rakamlar, yüzdeler, fiyatlar ve tarih/saat ifadeleri gövdede de yer almalı; kaynakla çelişecek şekilde değiştirme veya yuvarlama yapma.
 
-2. **OLAY VE KURUM SADAKATİ (ZORUNLU):**
-   - "ABD ordusu altı İran botunu imha etti" → MUTLAKA bahset
-   - "Trump'ın Özgürlük Projesi" → İSİM olarak geçirmeli
-   - "Fujairah limanı saldırısı" → SPESİFİK detay korunmalı
-   - Genel "jeopolitik gerilim" lafıyla KAPATMA
+2. **OLAY VE İSİM:** Kurum, kişi, proje ve yer adları ile kaynakta yer alan önemli olaylar ve alıntılar atlanmamalı.
 
-3. **KAYNAK DIŞI BİLGİ YASAĞI:**
-   - Kaynakta OLMAYAN hiçbir rakam, şirket, olay EKLEME
-   - "Piyasa analistleri diyor ki..." YASAK (kaynakta yoksa)
-   - Genel finans bilgisi, teorik açıklama YASAK
-   - Sadece kaynak metindeki SOMUT olayları işle
+3. **YENİ BİLGİ YASAĞI:** Kaynakta olmayan olgu, rakam, şirket veya tarih EKLEME. Kaynakta “analistler şunu dedi” diye geçmiyorsa o cümleyi uydurma.
 
-4. **İÇERİK DEVRALMASI:**
-   - Kaynak 400 kelimeyse → gövde min 280 kelime olmalı (%70 kural)
-   - Kaynaktaki TÜM önemli bilgiler gövdede yer almalı
-   - Hiçbir paragraf, önemli detay ATLANMAMALI
+4. **KAPSAM:** Uzun kaynaklarda önemli bilgiler eksiltilmemeli; özet broşüre indirgeme.
 
-5. **BAŞLIK VE BAĞLAM SADAKATİ:**
-   - Kaynak "altın fiyatları yükseldi" diyorsa → başlık da altın odaklı
-   - Kaynak spesifik bir olaysa → genel piyasa analizi YASAK
-   - Ana tema kaynak metinle %100 uyumlu olmalı
+5. **TEMA:** Çıktının ana konusu kaynak metnin konusundan sapmasın.
+
+=== EDITÖRYEL YENİDEN YAZIM (zorunlu — “aynı metin” geçersiz) ===
+
+Sadakat kurallarıyla birlikte: **bilgi aynı**, **cümleler ve düzen profesyonelce yeniden yazılmış** olmalı.
+
+- Kaynak metni **kopyala-yapıştır** yapma: üst üste birden çok cümleyi kaynakla **aynı söz dizimi ve sırayla** aktarma; bağlaçları ve cümle yapısını çeşitlendir, paragrafları mantıklı şekilde birleştir veya böl.
+- Tahmini: düz metinde kaynakla **uzun alıntı hissi** veren bloklar olmasın; her ana bilgi **farklı yapıda** en az bir Türkçe cümleyle yer alsın (rakamlar ve özel adlar sabit kalabilir).
+- **Ters piramit:** İlk `<p>` en kritik özü verir; kaynak paragraf sırasını körlemesine izleme.
+- **HTML:** Çoklu `<p>` ve kaynak uzunluğuna uygun **en az 2 `<h2>`**; `subheadings` ile gövde uyumlu.
+- Kaynakta **açıkça yazmayan** psikoloji / nedensellik (“risk iştahı”, “baskı altında kaldı” vb.) **ekleme**; yalnızca kaynakta geçen veya tırnak içi değerlendirmeleri kullan.
 
 === Zorunlu JSON Şeması (başka metin ekleme) ===
 {
@@ -306,7 +297,7 @@ Kaynak başlık:
 Kaynak metin (yalnızca bunu temel al):
 {$truncatedContent}
 
-🎯 SON KONTROL: Yazdığın her rakam, isim, olay kaynak metinde var mı? Yoksa SİL! Kaynak metindeki hiçbir önemli detayı atlama!
+🎯 SON KONTROL: (1) Her rakam/kurum kaynakta var mı? (2) Kaynakta olmayan yorum/nedensellik eklememiş ol. (3) Gövde kaynağın uzun alıntısı gibi değil; cümleler yeniden kurulmuş mu?
 PROMPT;
     }
 
