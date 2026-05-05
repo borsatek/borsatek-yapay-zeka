@@ -130,7 +130,8 @@ Bu beklenen davranıştır. Eklenti her zaman **taslak** oluşturur, inceleme so
 ## Geliştirici Notları
 
 - Yapılan geliştirme ve düzeltmeler: [`GELISTIRME_KAYDI.md`](GELISTIRME_KAYDI.md)
-- Kaynak kontrolü: Proje kökünde (`Borsatek-Yapay-Zeka/`) Git deposu vardır (`main` dalı). Yedek için GitHub/GitLab’da boş repo oluşturup `git remote add origin <url>` ve `git push -u origin main` kullanın.
+- Kaynak kontrolü: Uzak depo [github.com/borsatek/borsatek-yapay-zeka](https://github.com/borsatek/borsatek-yapay-zeka) (`origin`, dal `main`). Günlük yedek: `git add -A`, `git commit`, `git push`.
+- API anahtarlarını yalnızca WordPress yönetim panelinden girin; repoya veya aktivasyon koduna gömülmemelidir.
 - Tüm API çağrıları `wp_remote_post/get` ile yapılır (WordPress HTTP API).
 - Custom post type `borsatek_ai_queue` admin panelinde gizlenmiştir (`show_ui = false`).
 - SEO meta verileri hem Yoast hem de RankMath formatında kaydedilir.

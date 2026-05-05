@@ -14,7 +14,9 @@ Bu dosya projede yapılan özellik eklemelerini, düzeltmeleri ve önemli teknik
 
 | Tarih | Tür | Kapsam | Özet |
 |-------|-----|--------|------|
-| 2026-05-05 | diğer | `.git/`, `.gitignore` | Git deposu oluşturuldu (`main` dalı); yedekleme ve sürüm takibi için ilk commit atıldı. Yerel `user.name` / `user.email` bu repo için ayarlandı; uzak sunucuya bağlarken `git remote add` kullanın. |
+| 2026-05-05 | güvenlik | `borsatek-yapay-zeka.php` | Aktivasyon varsayılanlarındaki API anahtarları kaldırıldı (yalnızca WordPress ayarlarından girilmeli). Bu anahtarlar daha önce repoda metin olarak bulunduğu için ilgili sağlayıcılarda yenilemeniz önerilir. |
+| 2026-05-05 | diğer | `origin` → GitHub | `https://github.com/borsatek/borsatek-yapay-zeka` uzaktan depo eklendi; `main` dalı push edildi (GitHub CLI kuruldu; `gh auth login` isteğe bağlı). |
+| 2026-05-05 | diğer | `.git/`, `.gitignore` | Git deposu oluşturuldu (`main` dalı); yedekleme ve sürüm takibi için ilk commit atıldı. |
 | 2026-05-05 | doc | `GELISTIRME_KAYDI.md` | Proje geliştirmelerini ve düzeltmeleri tek yerde takip etmek için bu kayıt dosyası oluşturuldu. |
 
 <!-- Yeni satır örneği (kopyalayıp düzenleyin):
